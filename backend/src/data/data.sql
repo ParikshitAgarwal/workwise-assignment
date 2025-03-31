@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS users {
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+}
+
+CREATE TABLE IF NOT EXISTS seats (
+    id SERIAL PRIMARY KEY,
+    seat_number INT UNIQUE NOT NULL,
+    row_number INT NOT NULL,
+    is_booked BOOLEAN DEFAULT FALSE,
+    booked_by INT REFERENCES users(id) ON DELETE SET NULL
+);
