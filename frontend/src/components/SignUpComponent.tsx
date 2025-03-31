@@ -45,7 +45,7 @@ export default function SignUpComponent() {
                 <AuthFormComponent email={email} password={password} setEmail={setEmail} setPassword={setPassword} handleSubmit={handleSubmit} buttonText='Sign Up' />
                 <p className="text-center text-gray-600 mt-3">
                     Already have an account?{" "}
-                    <Link href="/" className="text-sky-600 hover:text-sky-500 font-medium">
+                    <Link href="/sign-in" className="text-sky-600 hover:text-sky-500 font-medium">
                         Sign In
                     </Link>
                 </p>
