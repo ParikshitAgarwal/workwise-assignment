@@ -8,6 +8,7 @@ const createSeatTable = async () => {
     row_number INT NOT NULL,
     is_booked BOOLEAN DEFAULT FALSE,
     booked_by INT REFERENCES users(id) ON DELETE SET NULL
+    booking_id VARCHAR(100)
 );
     `;
     try {
