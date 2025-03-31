@@ -130,7 +130,7 @@ function TicketBookingComponent() {
   }, [seatUpdated])
 
   return (
-    <div className="flex max-w-4xl mx-auto gap-10 justify-center items-center h-screen">
+    <div className="flex max-w-4xl mx-auto gap-10 justify-center items-center ">
       {/*Availaible Seats Panel */}
       <SeatGrid seatData={seatData} isLoading={isLoading} availableSeats={availableSeats()} />
 
