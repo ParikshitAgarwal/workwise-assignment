@@ -79,7 +79,7 @@ export default function MyBookings() {
     return (
         <div className='h-screen'>
             {
-                !isLoading ? bookedSeatData && bookedSeatData.map((bookedSeat) => {
+                !isLoading ? bookedSeatData.length > 0 ? bookedSeatData && bookedSeatData.map((bookedSeat) => {
                     return <div key={bookedSeat.booking_id} className='flex  max-w-5xl mx-auto  justify-center items-center'>
                         <div className='flex items-center shadow-xl my-2 p-5 w-1/3 justify-center gap-2'>
                             {
@@ -94,7 +94,9 @@ export default function MyBookings() {
                             Cancel Booking
                         </button>
                     </div>
-                }) :
+                }) : <div className='w-fit m-auto '>
+                    No Bookings Available 
+                </div> :
                     <div className="col-span-7 flex justify-center items-center h-full">
                         <div className="animate-spin rounded-full h-10 w-10 border-4 border-t-transparent border-gray-500"></div>
                     </div>
