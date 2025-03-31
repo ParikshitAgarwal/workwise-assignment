@@ -6,7 +6,7 @@ import { seatType } from '../constants/types'
 import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
-
+import { v4 as uuidv4 } from 'uuid';
 function TicketBookingComponent() {
   const [seatData, setSeatData] = useState<seatType[]>([])
   const [numberOfSeats, setNumberOfSeats] = useState(0);
@@ -41,9 +41,10 @@ function TicketBookingComponent() {
 
     try {
       setSeatBookingLoader(true)
+      const bookingId = uuidv4();
       const response = await axios.post(`${baseUrl}/seats/book`, {
         seatCount: numberOfSeats,
-
+        bookingId: bookingId
       }, {
         headers: {
           Authorization: 'Bearer ' + token
@@ -63,6 +64,8 @@ function TicketBookingComponent() {
         toast(error?.response?.data.message)
         setSeatBookingLoader(false)
       }
+
+      setNumberOfSeats(0)
 
     }
   }
@@ -85,6 +88,7 @@ function TicketBookingComponent() {
       if (response.status === 200) {
         setSeatUpdated(true)
         setSeatResetBookingLoader(false)
+        setBookedSeats([])
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -108,15 +112,18 @@ function TicketBookingComponent() {
           }
         })
 
-        console.log(response.data)
-        setSeatData(response.data.data)
-        setSeatUpdated(false)
-        setIsLoading(false)
+        if (response.status === 200) {
+          console.log(response.data)
+          setSeatData(response.data.data)
+          setSeatUpdated(false)
+          setIsLoading(false)
+        }
 
       } catch (error) {
         if (error instanceof AxiosError) {
           console.log(error.response)
           toast(error?.response?.data.message)
+          setSeatUpdated(false)
           setIsLoading(false)
         }
       }

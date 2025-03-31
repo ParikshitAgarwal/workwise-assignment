@@ -1,5 +1,7 @@
 import {
+    cancelBookingService,
     findAllAvailableSeatsService,
+    findAllBookedSeatsByUser,
     findAllSeatsService,
     resetSeatBookingService,
     updateSeatBookingService
@@ -16,7 +18,7 @@ const handleResponse = (res, status, message, data = null) => {
 export const getSeats = async (req, res, next) => {
     try {
         const getAllSeats = await findAllSeatsService();
-        handleResponse(res,200,"Success",getAllSeats)
+        handleResponse(res, 200, "Success", getAllSeats)
     } catch (error) {
         next(error)
     }
@@ -27,9 +29,10 @@ export const bookSeats = async (req, res, next) => {
     try {
 
         const {
-            seatCount
+            seatCount,
+            bookingId
         } = req.body;
-
+        console.log(bookingId)
         if (seatCount < 1 || seatCount > 7) {
             return handleResponse(res, 400, "You can book between 1 to 7 seats only.")
         }
@@ -80,19 +83,42 @@ export const bookSeats = async (req, res, next) => {
         }
 
         const seatIds = selectedSeats.map(s => s.id);
-        await updateSeatBookingService(req.user.id, seatIds);
+        await updateSeatBookingService(req.user.id, seatIds, bookingId);
         console.log(seatIds)
-        handleResponse(res, 200,"Seats Booked Successfully" ,seatIds)
+        handleResponse(res, 200, "Seats Booked Successfully", seatIds)
         console.log(availableSeats.length)
     } catch (error) {
         next(error)
     }
 }
 
-export const resetSeats = async (req,res,next) => {
+export const getBookedSeats = async (req, res, next) => {
+    try {
+        const userId = req.user.id
+        console.log(userId)
+        const bookedSeatsByUser = await findAllBookedSeatsByUser(userId);
+        handleResponse(res, 200, "", bookedSeatsByUser)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const resetSeats = async (req, res, next) => {
     try {
         await resetSeatBookingService();
-        handleResponse(res, 200,"Seats Reset Successfully")
+        handleResponse(res, 200, "Seats Reset Successfully")
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const cancelBooking = async (req, res, next) => {
+    try {
+        const {
+            bookingId
+        } = req.body;
+        await cancelBookingService(bookingId);
+        handleResponse(res, 200, "Seats Reset Successfully")
     } catch (error) {
         next(error)
     }
