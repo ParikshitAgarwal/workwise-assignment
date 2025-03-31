@@ -26,7 +26,7 @@ export default function SignUpComponent() {
 
             if (response.status === 201) {
                 toast(response.data.data.message)
-                router.push("/")
+                router.push("/sign-in")
             }
             console.log(response.data)
         } catch (error) {
