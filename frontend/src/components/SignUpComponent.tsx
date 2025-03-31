@@ -1,5 +1,5 @@
 "use client"
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -29,9 +29,11 @@ export default function SignUpComponent() {
                 router.push("/")
             }
             console.log(response.data)
-        } catch (error: any) {
-            console.log(error)
-            toast(error.response.data.message)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.log(error.response)
+                toast(error?.response?.data.message)
+            }
         }
 
     }

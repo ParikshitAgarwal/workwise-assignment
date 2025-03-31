@@ -1,8 +1,8 @@
 "use client"
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useState } from 'react'
+import React, { useState } from 'react'
 import AuthFormComponent from './AuthFormComponent';
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,9 +34,11 @@ export default function SignInComponent() {
                 router.push("/")
             }
             console.log(response.data)
-        } catch (error: any) {
-            toast(error.response.data.message)
-            console.log(error)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast(error?.response?.data.message)
+                console.log(error.response)
+            }
         }
 
     }
@@ -47,7 +49,7 @@ export default function SignInComponent() {
             <div className="shadow-xl p-10 rounded-xl">
                 <AuthFormComponent email={email} password={password} setEmail={setEmail} setPassword={setPassword} handleSubmit={handleSubmit} buttonText='Sign in' />
                 <p className="text-center text-gray-600 mt-3">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link href="/sign-up" className="text-sky-600 hover:text-sky-500 font-medium">
                         Sign Up
                     </Link>

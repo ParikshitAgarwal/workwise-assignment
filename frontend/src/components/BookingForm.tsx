@@ -1,13 +1,13 @@
 import React from 'react'
 
 interface BookingFormInterface {
-    numberOfSeats: Number;
-    bookedSeats: Number[];
+    numberOfSeats: number;
+    bookedSeats: number[];
     setNumberOfSeats: (seats: number) => void;
     handleBooking: () => void;
     resetBooking: () => void;
-    seatBookingLoader: Boolean;
-    seatResetBookingLoader: Boolean;
+    seatBookingLoader: boolean;
+    seatResetBookingLoader: boolean;
 }
 
 export default function BookingForm({ numberOfSeats, bookedSeats, setNumberOfSeats, handleBooking, resetBooking, seatBookingLoader, seatResetBookingLoader }: BookingFormInterface) {

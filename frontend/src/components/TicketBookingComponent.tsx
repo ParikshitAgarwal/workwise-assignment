@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import SeatGrid from './SeatGrid'
 import BookingForm from './BookingForm'
 import { seatType } from '../constants/types'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -13,7 +13,7 @@ function TicketBookingComponent() {
   const [isLoading, setIsLoading] = useState(true);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const [seatUpdated, setSeatUpdated] = useState(true);
-  const [bookedSeats, setBookedSeats] = useState<Number[]>([])
+  const [bookedSeats, setBookedSeats] = useState<number[]>([])
   const [seatBookingLoader, setSeatBookingLoader] = useState(false)
   const [seatResetBookingLoader, setSeatResetBookingLoader] = useState(false)
   const token = Cookies.get('token')
@@ -57,9 +57,13 @@ function TicketBookingComponent() {
         setSeatBookingLoader(false)
 
       }
-    } catch (error: any) {
-      toast(error.response.data.message)
-      setSeatBookingLoader(false)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response)
+        toast(error?.response?.data.message)
+        setSeatBookingLoader(false)
+      }
+
     }
   }
 
@@ -82,9 +86,12 @@ function TicketBookingComponent() {
         setSeatUpdated(true)
         setSeatResetBookingLoader(false)
       }
-    } catch (error: any) {
-      toast(error.response.data.message)
-      setSeatResetBookingLoader(false)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response)
+        toast(error?.response?.data.message)
+        setSeatResetBookingLoader(false)
+      }
     }
   }
 
@@ -106,10 +113,12 @@ function TicketBookingComponent() {
         setSeatUpdated(false)
         setIsLoading(false)
 
-      } catch (error: any) {
-        toast(error.response.data.message)
-        setIsLoading(false)
-
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.log(error.response)
+          toast(error?.response?.data.message)
+          setIsLoading(false)
+        }
       }
     }
 

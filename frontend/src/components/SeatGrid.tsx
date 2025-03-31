@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { seatType } from '../constants/types'
 
 
-export default function SeatGrid({ seatData, isLoading, availableSeats }: { seatData: seatType[], isLoading: Boolean, availableSeats: number }) {
+export default function SeatGrid({ seatData, isLoading, availableSeats }: { seatData: seatType[], isLoading: boolean, availableSeats: number }) {
 
     return (
         <div className="flex flex-col items-center w-full ">
